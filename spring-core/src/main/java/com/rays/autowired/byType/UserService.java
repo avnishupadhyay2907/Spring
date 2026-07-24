@@ -1,4 +1,4 @@
-package com.rays.autowired.byType;
+package com.rays.autowired.bytype;
 
 public class UserService {
 

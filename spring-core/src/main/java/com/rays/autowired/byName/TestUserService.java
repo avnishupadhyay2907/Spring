@@ -1,4 +1,4 @@
-package com.rays.autowired.byName;
+package com.rays.autowired.byname;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

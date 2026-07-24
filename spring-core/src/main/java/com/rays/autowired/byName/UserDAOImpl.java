@@ -1,4 +1,4 @@
-package com.rays.autowired.byName;
+package com.rays.autowired.byname;
 
 public class UserDAOImpl implements UserDAOInt {
 
