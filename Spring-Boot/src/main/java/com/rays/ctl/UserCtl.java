@@ -1,0 +1,98 @@
+package com.rays.ctl;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.rays.common.BaseCtl;
+import com.rays.common.ORSResponse;
+import com.rays.dto.UserDTO;
+import com.rays.form.UserForm;
+import com.rays.service.UserService;
+
+@RestController
+@RequestMapping(value = "UserCtl")
+public class UserCtl extends BaseCtl {
+
+	@Autowired
+	UserService service;
+
+	// http://localhost:8080/USer/save
+	@PostMapping("save")
+	public ORSResponse save(@RequestBody @Valid UserForm form, BindingResult bindingResult) {
+
+		ORSResponse res = new ORSResponse();
+
+		res = validate(bindingResult);
+
+		if (res.isSuccess() == false) {
+			return res;
+		}
+
+		UserDTO dto = (UserDTO) form.getDto();
+
+		service.add(dto);
+
+		res.addMessage("user saved successfully");
+		res.addData(dto);
+		res.setSuccess(true);
+
+		return res;
+	}
+
+	// http://localhost:8080/USer/update
+	@PostMapping("update")
+	public ORSResponse update(@RequestBody UserForm form) {
+
+		ORSResponse res = new ORSResponse();
+
+		UserDTO dto = (UserDTO) form.getDto();
+
+		service.save(dto);
+
+		res.addMessage("user updated successfully");
+		res.addData(dto);
+		res.setSuccess(true);
+
+		return res;
+	}
+
+	// http://localhost:8080/USer/delete/id
+	@GetMapping("delete/{ids}")
+	public ORSResponse delete(@PathVariable long[] ids) {
+
+		ORSResponse res = new ORSResponse();
+
+		for (long id : ids) {
+			service.delete(id);
+			res.addMessage("user delete successfully");
+			res.setSuccess(true);
+		}
+
+		return res;
+	}
+
+	// http://localhost:8080/USer/get/id
+	@GetMapping("get/{id}")
+	public ORSResponse get(@PathVariable long id) {
+
+		ORSResponse res = new ORSResponse();
+
+		UserDTO dto = service.findById(id);
+
+		if (dto != null) {
+			res.setSuccess(true);
+			res.addData(dto);
+		}
+
+		return res;
+	}
+
+}
