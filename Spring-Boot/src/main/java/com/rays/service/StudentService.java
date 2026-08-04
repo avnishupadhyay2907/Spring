@@ -7,17 +7,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rays.dao.SubjectDAO;
-import com.rays.dto.SubjectDTO;
+import com.rays.dao.StudentDAO;
+import com.rays.dto.StudentDTO;
 
 @Service
-public class SubjectService {
+public class StudentService {
 
 	@Autowired
-	SubjectDAO dao;
+	StudentDAO dao;
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void save(SubjectDTO dto) {
+	public void save(StudentDTO dto) {
 
 		if (dto.getId() != null && dto.getId() > 0) {
 			dao.update(dto);
@@ -33,12 +33,12 @@ public class SubjectService {
 	}
 
 	@Transactional(readOnly = true)
-	public SubjectDTO findById(long id) {
+	public StudentDTO findById(long id) {
 		return dao.findByPk(id);
 	}
 
 	@Transactional(readOnly = true)
-	public List<SubjectDTO> search(SubjectDTO dto, int pageNo, int pageSize) {
+	public List<StudentDTO> search(StudentDTO dto, int pageNo, int pageSize) {
 		return dao.search(dto, pageNo, pageSize);
 
 	}
