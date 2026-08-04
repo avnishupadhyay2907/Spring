@@ -11,7 +11,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
 
 import com.rays.dto.UserDTO;
@@ -21,6 +20,8 @@ public class UserDAO {
 
 	@PersistenceContext
 	EntityManager entityManager;
+	
+
 
 	public long add(UserDTO dto) {
 		entityManager.persist(dto);
@@ -97,4 +98,28 @@ public class UserDAO {
 
 	}
 
+	public UserDTO findByUniqueKey(String attribute, String value) {
+
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+		CriteriaQuery<UserDTO> cq = builder.createQuery(UserDTO.class);
+
+		Root<UserDTO> qRoot = cq.from(UserDTO.class);
+
+		Predicate condition = builder.equal(qRoot.get(attribute), value);
+
+		cq.where(condition);
+
+		TypedQuery<UserDTO> tq = entityManager.createQuery(cq);
+
+		List<UserDTO> list = tq.getResultList();
+
+		UserDTO dto = null;
+
+		if (list.size() == 1) {
+			dto = list.get(0);
+		}
+
+		return dto;
+	}
 }

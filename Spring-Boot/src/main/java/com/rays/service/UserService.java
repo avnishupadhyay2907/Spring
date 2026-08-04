@@ -21,6 +21,17 @@ public class UserService {
 	@Autowired
 	RoleDAO roleDao;
 
+	@Transactional(readOnly = true)
+	public UserDTO findByLogin(String login) {
+		UserDTO dto = dao.findByUniqueKey("login", login);
+
+		if (dto != null) {
+			return dto;
+		}
+
+		return null;
+	}
+
 	@Transactional(propagation = Propagation.REQUIRED)
 	public long add(UserDTO dto) {
 
@@ -65,6 +76,18 @@ public class UserService {
 	public List<UserDTO> search(UserDTO dto, int pageNo, int pageSize) {
 		return dao.search(dto, pageNo, pageSize);
 
+	}
+
+	@Transactional(readOnly = true)
+	public UserDTO authenticate(String login, String password) {
+
+		UserDTO dto = findByLogin(login);
+
+		if (dto != null)
+			if (dto.getPassword().equals(password))
+				return dto;
+
+		return null;
 	}
 
 }

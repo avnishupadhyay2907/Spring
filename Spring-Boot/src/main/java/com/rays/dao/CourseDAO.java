@@ -13,20 +13,21 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import com.rays.dto.RoleDTO;
+import com.rays.dto.CourseDTO;
+import com.rays.dto.UserDTO;
 
 @Repository
-public class RoleDAO {
+public class CourseDAO {
 
 	@PersistenceContext
 	EntityManager entityManager;
 
-	public long add(RoleDTO dto) {
+	public long add(CourseDTO dto) {
 		entityManager.persist(dto);
 		return dto.getId();
 	}
 
-	public void update(RoleDTO dto) {
+	public void update(CourseDTO dto) {
 
 		entityManager.merge(dto); // merge method to insert or update
 
@@ -34,55 +35,66 @@ public class RoleDAO {
 
 	public void delete(long id) {
 
-		RoleDTO dto = findByPk(id);
+		CourseDTO dto = findByPk(id);
 
 		entityManager.remove(dto); // remove method to delete
 
 	}
 
-	public RoleDTO findByPk(long id) {
+	public CourseDTO findByPk(long id) {
 
-		RoleDTO dto = entityManager.find(RoleDTO.class, id); // find method to find by id
+		CourseDTO dto = entityManager.find(CourseDTO.class, id); // find method to find by id
 
 		return dto;
 
 	}
 
-	public List<RoleDTO> search(RoleDTO dto, int pageNo, int pageSize) {
+	public List<CourseDTO> search(CourseDTO dto, int pageNo, int pageSize) {
 
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 
-		CriteriaQuery<RoleDTO> cq = builder.createQuery(RoleDTO.class);
+		CriteriaQuery<CourseDTO> criteriaQuery = builder.createQuery(CourseDTO.class);
 
-		Root<RoleDTO> root = cq.from(RoleDTO.class);
+		Root<CourseDTO> root = criteriaQuery.from(CourseDTO.class);
 
 		List<Predicate> predicateList = new ArrayList<Predicate>();
 
 		if (dto != null) {
 
 			if (dto.getId() != null && dto.getId() > 0) {
-				predicateList.add(builder.equal(root.get("id"), dto.getId()));
-			}
-			if (dto.getName() != null && dto.getName().length() > 0) {
-				predicateList.add(builder.like(root.get("name"), dto.getName()));
-			}
-			if (dto.getDescription() != null && dto.getDescription().length() > 0) {
-				predicateList.add(builder.like(root.get("description"), dto.getDescription()));
-			}
-		}
-		cq.where(predicateList.toArray(new Predicate[predicateList.size()]));
 
-		TypedQuery<RoleDTO> querry = entityManager.createQuery(cq);
+				predicateList.add(builder.equal(root.get("id"), dto.getId()));
+
+			}
+
+			if (dto.getName() != null && dto.getName().length() > 0) {
+
+				predicateList.add(builder.like(root.get("name"), dto.getName() + "%"));
+
+			}
+
+			if (dto.getDescription() != null && dto.getDescription().length() > 0) {
+
+				predicateList.add(builder.like(root.get("description"), dto.getDescription() + "%"));
+
+			}
+
+			if (dto.getDuration() != null && dto.getDuration().length() > 0) {
+				predicateList.add(builder.like(root.get("duration"), dto.getDuration() + "%"));
+			}
+
+		}
+		criteriaQuery.where(predicateList.toArray(new Predicate[predicateList.size()]));
+
+		TypedQuery<CourseDTO> query = entityManager.createQuery(criteriaQuery);
 
 		if (pageSize > 0) {
-			querry.setFirstResult(pageNo * pageSize);
-			querry.setMaxResults(pageSize);
+			query.setFirstResult(pageNo * pageSize);
+			query.setMaxResults(pageSize);
 		}
 
-		List<RoleDTO> list = querry.getResultList();
-
+		List<CourseDTO> list = query.getResultList();
 		return list;
-
 	}
 
 }

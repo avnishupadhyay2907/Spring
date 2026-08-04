@@ -16,20 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rays.common.BaseCtl;
 import com.rays.common.ORSResponse;
-import com.rays.dto.RoleDTO;
-import com.rays.form.RoleForm;
-import com.rays.service.RoleService;
+import com.rays.dto.SubjectDTO;
+import com.rays.form.SubjectForm;
+import com.rays.service.SubjectService;
 
 @RestController
-@RequestMapping(value = "RoleCtl")
-public class RoleCtl extends BaseCtl {
+@RequestMapping(value = "SubjectCtl")
+public class SubjectCtl extends BaseCtl {
 
 	@Autowired
-	RoleService service;
+	SubjectService service;
 
-	// http://localhost:8080/Role/save
 	@PostMapping("save")
-	public ORSResponse save(@RequestBody @Valid RoleForm form, BindingResult bindingResult) {
+	public ORSResponse save(@RequestBody @Valid SubjectForm form, BindingResult bindingResult) {
 
 		ORSResponse res = new ORSResponse();
 
@@ -39,35 +38,35 @@ public class RoleCtl extends BaseCtl {
 			return res;
 		}
 
-		RoleDTO dto = (RoleDTO) form.getDto();
+		SubjectDTO dto = (SubjectDTO) form.getDto();
 
 		service.save(dto);
 
-		res.addMessage("Role saved successfully");
+		res.addMessage("Subject saved successfully");
 		res.addData(dto);
 		res.setSuccess(true);
 
 		return res;
 	}
 
-	// http://localhost:8080/Role/update
+	// http://localhost:8080/Subject/update
 	@PostMapping("update")
-	public ORSResponse update(@RequestBody RoleForm form) {
+	public ORSResponse update(@RequestBody SubjectForm form) {
 
 		ORSResponse res = new ORSResponse();
 
-		RoleDTO dto = (RoleDTO) form.getDto();
+		SubjectDTO dto = (SubjectDTO) form.getDto();
 
 		service.save(dto);
 
-		res.addMessage("Role updated successfully");
+		res.addMessage("Subject updated successfully");
 		res.addData(dto);
 		res.setSuccess(true);
 
 		return res;
 	}
 
-	// http://localhost:8080/Role/delete/id
+	// http://localhost:8080/Subject/delete/id
 	@GetMapping("delete/{ids}")
 	public ORSResponse delete(@PathVariable long[] ids) {
 
@@ -75,22 +74,23 @@ public class RoleCtl extends BaseCtl {
 
 		for (long id : ids) {
 			service.delete(id);
-			res.addMessage("Role delete successfully");
+			res.addMessage("Subject delete successfully");
 			res.setSuccess(true);
 		}
 
 		return res;
 	}
 
-	// http://localhost:8080/Role/get/id
+	// http://localhost:8080/Subject/get/id
 	@GetMapping("get/{id}")
 	public ORSResponse get(@PathVariable long id) {
 
 		ORSResponse res = new ORSResponse();
 
-		RoleDTO dto = service.findById(id);
+		SubjectDTO dto = service.findById(id);
 
 		if (dto != null) {
+			res.addMessage("Subject find successfully");
 			res.setSuccess(true);
 			res.addData(dto);
 		}
@@ -99,22 +99,23 @@ public class RoleCtl extends BaseCtl {
 	}
 
 	@RequestMapping(method = { RequestMethod.GET, RequestMethod.POST }, value = "/search/{pageNo}")
-	public ORSResponse search(@RequestBody RoleForm form, @PathVariable int pageNo) {
-
+	public ORSResponse search(@RequestBody SubjectForm form, @PathVariable int pageNo) {
 		ORSResponse res = new ORSResponse();
-		RoleDTO dto = (RoleDTO) form.getDto();
 
 		int pageSize = 5;
-		List<RoleDTO> list = service.search(dto, pageNo, pageSize);
+
+		SubjectDTO dto = (SubjectDTO) form.getDto();
+
+		List<SubjectDTO> list = service.search(dto, pageNo, pageSize);
 
 		if (list != null && list.size() > 0) {
 			res.setSuccess(true);
 			res.addData(list);
 			res.addMessage("Record find successfully");
-
 		} else {
-			res.addMessage("record not found successfully");
+			res.addMessage("record not found");
 		}
+
 		return res;
 
 	}
