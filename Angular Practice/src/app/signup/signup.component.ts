@@ -6,4 +6,15 @@ import { Component } from '@angular/core';
 })
 export class SignupComponent {
 
+  form: any = {
+    error: "",
+    successmsg: ""
+
+  }
+  signUp() {
+    console.log(this.form.login);
+    console.log(this.form.password);
+    console.log(this.form.firstName);
+    console.log(this.form.lastName);
+  }
 }
