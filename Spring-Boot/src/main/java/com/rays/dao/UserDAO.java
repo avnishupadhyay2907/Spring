@@ -20,8 +20,6 @@ public class UserDAO {
 
 	@PersistenceContext
 	EntityManager entityManager;
-	
-
 
 	public long add(UserDTO dto) {
 		entityManager.persist(dto);
@@ -114,12 +112,12 @@ public class UserDAO {
 
 		List<UserDTO> list = tq.getResultList();
 
-		UserDTO dto = null;
+		// Debug prints
 
-		if (list.size() == 1) {
-			dto = list.get(0);
+		if (!list.isEmpty()) {
+			return list.get(0);
 		}
 
-		return dto;
+		return null;
 	}
 }

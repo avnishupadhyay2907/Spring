@@ -11,6 +11,7 @@ import com.rays.dao.RoleDAO;
 import com.rays.dao.UserDAO;
 import com.rays.dto.RoleDTO;
 import com.rays.dto.UserDTO;
+import com.rays.exception.DuplicateRecordException;
 
 @Service
 public class UserService {
@@ -39,26 +40,33 @@ public class UserService {
 		System.out.println("roleId = " + dto.getRoleId());
 		System.out.println("roleDao = " + roleDao);
 		System.out.println("dao = " + dao);
-
+		System.out.println("Incoming Login ===========> [" + dto.getLogin() + "]");
 		RoleDTO roleDTO = roleDao.findByPk(dto.getRoleId());
+		UserDTO existDto = findByLogin(dto.getLogin().trim());
+		System.out.println("Exist DTO ===========> " + existDto);
 
 		System.out.println("roleDTO = " + roleDTO);
+
+		if (existDto != null && existDto.getLogin() != null) {
+
+			throw new DuplicateRecordException("Login Id already exist");
+		}
 
 		if (roleDTO != null) {
 			dto.setRoleName(roleDTO.getName());
 		}
-
 		return dao.add(dto);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void save(UserDTO dto) {
+	public void update(UserDTO dto) {
 
-		if (dto.getId() != null && dto.getId() > 0) {
-			dao.update(dto);
-		} else {
-			dao.add(dto);
+		UserDTO existDto = findByLogin(dto.getLogin());
+
+		if (existDto != null && dto.getId() != existDto.getId()) {
+			throw new DuplicateRecordException("loginId already exist");
 		}
+		dao.update(dto);
 
 	}
 

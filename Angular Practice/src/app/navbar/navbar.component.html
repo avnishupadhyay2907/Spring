@@ -1,6 +1,19 @@
-<h3>Hii, Guest</h3>
-<a href="login">Sign In</a>|
-<a href="signup">Sign Up</a>|
-<a href="welcome">Welcome</a>
+<h3 *ngIf="!form.user">
+    Hii, Guest
+</h3>
+
+<h3 *ngIf="form.user">
+    Hii, {{ form.user.firstName }} ({{ form.user.roleName }})
+</h3>
+
+<div *ngIf="!form.user">
+    <a href="login">Sign In</a> |
+    <a href="signup">Sign Up</a>
+</div>
+
+<div *ngIf="form.user">
+    <a href="welcome">Welcome</a>|
+    <a href="user">Add User</a>
+</div>
 
 <hr>

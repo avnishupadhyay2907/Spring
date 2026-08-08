@@ -43,7 +43,7 @@ public class UserCtl extends BaseCtl {
 
 		service.add(dto);
 
-		res.addMessage("user saved successfully");
+		res.addMessage("User saved successfully");
 		res.addData(dto);
 		res.setSuccess(true);
 
@@ -58,9 +58,9 @@ public class UserCtl extends BaseCtl {
 
 		UserDTO dto = (UserDTO) form.getDto();
 
-		service.save(dto);
+		service.update(dto);
 
-		res.addMessage("user updated successfully");
+		res.addMessage("User updated successfully");
 		res.addData(dto);
 		res.setSuccess(true);
 
@@ -75,7 +75,7 @@ public class UserCtl extends BaseCtl {
 
 		for (long id : ids) {
 			service.delete(id);
-			res.addMessage("user delete successfully");
+			res.addMessage("User delete successfully");
 			res.setSuccess(true);
 		}
 
@@ -91,6 +91,7 @@ public class UserCtl extends BaseCtl {
 		UserDTO dto = service.findById(id);
 
 		if (dto != null) {
+			res.addMessage("User found successsfully");
 			res.setSuccess(true);
 			res.addData(dto);
 		}

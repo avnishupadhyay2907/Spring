@@ -31,6 +31,8 @@ export class LoginComponent {
       }
       if (response.success == true) {
         self.form.successMsg = response.result.message;
+
+        localStorage.setItem("user", JSON.stringify(response.result.data));
         this.router.navigate(['/welcome']);
       }
     })

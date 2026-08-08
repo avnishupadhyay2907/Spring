@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rays.common.BaseCtl;
 import com.rays.common.ORSResponse;
 import com.rays.dto.UserDTO;
+import com.rays.exception.DuplicateRecordException;
 import com.rays.form.LoginForm;
 import com.rays.form.UserRegistrationForm;
 import com.rays.service.UserService;
@@ -80,8 +81,8 @@ public class LoginCtl extends BaseCtl {
 			long pk = service.add(dto);
 
 			res.addData(dto);
-			res.addMessage("user Registered Successfully..!!");
-		} catch (Exception e) {
+			res.addMessage("User Registered Successfully..!!");
+		} catch (DuplicateRecordException e) {
 			res.addMessage(e.getMessage());
 			res.setSuccess(false);
 		}
