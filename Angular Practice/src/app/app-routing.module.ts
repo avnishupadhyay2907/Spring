@@ -4,9 +4,11 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { UserComponent } from './user/user.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { FooterComponent } from './footer/footer.component';
+import { RoleComponent } from './role/role.component';
 
 const routes: Routes = [
-
   {
     path: '',
     pathMatch: 'full',
@@ -27,9 +29,19 @@ const routes: Routes = [
   {
     path: 'user',
     component: UserComponent
+  },
+  {
+    path: 'navbar',
+    component: NavbarComponent
+  },
+  {
+    path: 'footer',
+    component: FooterComponent
+  },
+  {
+    path: 'role',
+    component: RoleComponent
   }
-
-
 ];
 
 @NgModule({

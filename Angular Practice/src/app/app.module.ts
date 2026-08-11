@@ -11,6 +11,7 @@ import { SignupComponent } from './signup/signup.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UserComponent } from './user/user.component';
+import { RoleComponent } from './role/role.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +20,8 @@ import { UserComponent } from './user/user.component';
     FooterComponent,
     WelcomeComponent,
     SignupComponent,
-    UserComponent
+    UserComponent,
+    RoleComponent
   ],
   imports: [
     BrowserModule,

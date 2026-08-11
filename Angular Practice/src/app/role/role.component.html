@@ -1,0 +1,36 @@
+<div align="center">
+
+    <h1 style="color: blue;">Add Role</h1>
+    <h3 style="color: red;">{{form.errorMsg}}</h3>
+    <h3 style="color: green;">{{form.successMsg}}</h3>
+
+    <form (submit)="save()">
+
+        <table align="center">
+
+            <tr>
+                <th>Role Name</th>
+                <td>
+                    <input type="text" name="name" [(ngModel)]="form.data.name" placeholder="Enter your role name">
+                </td>
+                <td style="color: red;">{{form.inputError.name}}</td>
+            </tr>
+
+            <tr>
+                <th>Role Description</th>
+                <td>
+                    <input type="text" name="description" [(ngModel)]="form.data.description" placeholder="Enter your role description">
+                </td>
+                <td style="color: red;">{{form.inputError.description}}</td>
+            </tr>
+
+            <tr>
+                <th></th>
+                <td><input type="submit" value="save"></td>
+            </tr>
+
+        </table>
+
+    </form>
+
+</div>
