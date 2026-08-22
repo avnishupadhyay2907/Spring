@@ -67,7 +67,7 @@ public class CollegeDTO extends BaseDTO {
 
 	@Override
 	public String getValue() {
-		return null;
+		return name;
 	}
 
 	@Override

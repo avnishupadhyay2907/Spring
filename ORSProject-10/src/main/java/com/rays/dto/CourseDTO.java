@@ -65,6 +65,6 @@ public class CourseDTO extends BaseDTO {
 
 	@Override
 	public String getValue() {
-		return null;
+		return name;
 	}
 }

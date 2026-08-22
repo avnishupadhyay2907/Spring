@@ -34,7 +34,7 @@ public class MarksheetDAOImpl extends BaseDAOImpl<MarksheetDTO> implements Marks
 			StudentDTO studentDTO = studentDao.findByPk(dto.getStudentId(), userContext);
 
 			if (studentDTO != null) {
-				dto.setName(studentDTO.getFirstName() + "" + studentDTO.getLastName());
+				dto.setName(studentDTO.getFirstName() + " " + studentDTO.getLastName());
 
 			}
 		}
